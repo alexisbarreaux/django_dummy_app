@@ -35,6 +35,14 @@ Or and according to a [stack overflow issue](https://stackoverflow.com/a/1073983
 You will have to change your python interpreter to the one created with the venv,
 meaning you'll have to point to something like **C:\Users\my_wonderful_user\Documents\GitHub\django_dummy_app\Scripts\python.exe**.
 
+### Installing needed packages
+
+Before going further, in the root directory and with your venv activated run
+
+```shell
+pip install -r requirements.txt
+```
+
 ## Running the app
 
 ### Running the server
@@ -63,6 +71,8 @@ If you indeed did make a local database you will have to make the needed migrati
 python .\inventory_site\manage.py migrate
 ```
 
+## Testing the app
+
 ### App superuser
 
 My site superuser has the name **admin** (surprising) and password **MYgr8t9GxnQfdUOudCp2** created with
@@ -70,8 +80,6 @@ My site superuser has the name **admin** (surprising) and password **MYgr8t9GxnQ
 ```shell
 python .\inventory_site\manage.py createsuperuser
 ```
-
-## Testing the app
 
 ### Building objects
 
@@ -92,5 +100,6 @@ where you can enter the name of the employee you just created.
 
 Then submitting the form you will be redirected to the display of the names
 and expiry dates of the products of the store.
+
 
 You'll then be able to add or update expiry dates from this page.
