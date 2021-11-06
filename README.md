@@ -63,6 +63,8 @@ If you indeed did make a local database you will have to make the needed migrati
 python .\inventory_site\manage.py migrate
 ```
 
+## Testing the app
+
 ### App superuser
 
 My site superuser has the name **admin** (surprising) and password **MYgr8t9GxnQfdUOudCp2** created with
@@ -70,8 +72,6 @@ My site superuser has the name **admin** (surprising) and password **MYgr8t9GxnQ
 ```shell
 python .\inventory_site\manage.py createsuperuser
 ```
-
-## Testing the app
 
 ### Building objects
 
