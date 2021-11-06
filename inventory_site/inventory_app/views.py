@@ -1,11 +1,17 @@
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpRequest, HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
-from django.contrib.auth.views import LoginView
 
-from .models import Employee, Store, Product
+from .models import Employee, Product, Store
 from .forms import EmployeeLoginForm
+
+
+def get_index(request: HttpRequest):
+    """Redirects to login."""
+    # TODO add a way to remember that user is logged in.
+    return HttpResponseRedirect(reverse("inventory:login"))
+
 
 # Create your views here.
 def get_employee(request: HttpRequest):
@@ -21,16 +27,17 @@ def get_employee(request: HttpRequest):
         form = EmployeeLoginForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            if (
-                employee := Employee.objects.filter(
+            try:
+                # TODO assert this returns at most one object
+                employee = Employee.objects.get(
                     firstname=form.cleaned_data["firstname"],
                     lastname=form.cleaned_data["lastname"],
-                ).first()
-                is not None
-            ):
-                return HttpResponseRedirect("index")
-            else:
-                # If the user doesn't exist display an error message to the user
+                )
+                return HttpResponseRedirect(
+                    reverse("inventory:store_display/{", args=(employee.current_store,))
+                )
+            except Employee.DoesNotExist:
+                # If the employee doesn't exist display an error message to the user
                 return render(
                     request,
                     "inventory_app/login.html",
@@ -47,17 +54,26 @@ def get_employee(request: HttpRequest):
     return render(request, "inventory_app/login.html", {"form": form})
 
 
-class EmployeeLogin(LoginView):
-    template_name = "inventory_app/login.html"
+def get_store_display(request: HttpRequest, store_name: str):
+    """Function to display the data about a store for an employee."""
 
+    def get_first_products(store: Store):
+        """Return the 20 products with the shortest expiry dates
+        of the store.
 
-class IndexView(generic.ListView):
-    template_name = "inventory_app/index.html"
-    context_object_name = "products_from_store"
-    store = 1
-
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Product.objects.filter(current_store=self.store).order_by(
+        Args:
+            store (Store): store in which to search for the products."""
+        return Product.objects.filter(current_store=current_store.id).order_by(
             "shortest_expiry_date"
         )[:20]
+
+    current_store = Store.objects.filter(name=store_name).first()
+    if current_store is None:
+        context = {}
+    else:
+        context = {
+            "store_name": current_store.name,
+            "products_list": get_first_products(current_store),
+        }
+
+    return render(request, "inventory_app/store_display.html", context)
