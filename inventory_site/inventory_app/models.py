@@ -1,7 +1,9 @@
-from django.db import models
 from datetime import date, datetime
-from django.contrib import admin
 from typing import Optional
+
+from django.contrib import admin
+from django.contrib.auth.models import User
+from django.db import models
 
 
 class Store(models.Model):
