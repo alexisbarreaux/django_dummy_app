@@ -1,0 +1,13 @@
+{% extends "inventory_app/app.html" %} {% block content %}
+<section class="storeProductsDisplay">
+    {% if products_from_store %}
+    <ul>
+        {% for product in products_from_store %}
+        <li>{{ product.name }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No products in store.</p>
+    {% endif %}
+</section>
+{% endblock %}

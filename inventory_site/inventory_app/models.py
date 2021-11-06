@@ -58,6 +58,7 @@ class Product(models.Model):
         "Products expire at", default=current_date
     )
     last_modified: datetime = models.DateTimeField(auto_now=True)
+    # TODO store and delete date in a queue
     #    expiry_dates: List[date]
     # )
 
