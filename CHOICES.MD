@@ -1,3 +1,3 @@
 # Choices made
 
-## GTIN
+TODO

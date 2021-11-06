@@ -63,6 +63,34 @@ If you indeed did make a local database you will have to make the needed migrati
 python .\inventory_site\manage.py migrate
 ```
 
-## App superuser
+### App superuser
 
-My site superuser has the name **admin** (surprising) and password **MYgr8t9GxnQfdUOudCp2**
+My site superuser has the name **admin** (surprising) and password **MYgr8t9GxnQfdUOudCp2** created with
+
+```shell
+python .\inventory_site\manage.py createsuperuser
+```
+
+## Testing the app
+
+### Building objects
+
+Since I ran on a local database you will have to do the same and thus recreate
+objects. With the app running and after having made the database and migrations
+go to **http://127.0.0.1:8000/admin**.
+There :
+
+-   create a store item
+-   create an employee for the store
+-   create a product displayed in the store.
+
+### Testing
+
+With the app running, you can go on your localhost and more specifically to
+**http://127.0.0.1:8000/inventory** . This will redirect you to a login page,
+where you can enter the name of the employee you just created.
+
+Then submitting the form you will be redirected to the display of the names
+and expiry dates of the products of the store.
+
+You'll then be able to add or update expiry dates from this page.
