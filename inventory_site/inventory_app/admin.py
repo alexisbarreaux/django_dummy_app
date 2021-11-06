@@ -10,6 +10,7 @@ class EmployeeInline(admin.TabularInline):
 class StoreAdmin(admin.ModelAdmin):
     """Admin display for stores."""
 
+    # TODO complexify display ?
     search_fields = ["name"]
 
     # Displaying employees in store
@@ -20,6 +21,7 @@ class StoreAdmin(admin.ModelAdmin):
 class EmployeeAdmin(admin.ModelAdmin):
     """Admin display for employees."""
 
+    # TODO complexify display ?
     search_fields = ["lastname"]
     # To change display in the main page of the products objects instead
     # of just the __str__ result

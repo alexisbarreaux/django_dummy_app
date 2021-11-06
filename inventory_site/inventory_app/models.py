@@ -11,7 +11,7 @@ class Store(models.Model):
         name (str): Name of the store.
     """
 
-    # Mostly empty
+    # TODO add localisation ?
     name: str = models.CharField("Store name", max_length=100)
 
     def __str__(self):
@@ -27,6 +27,7 @@ class Employee(models.Model):
         current_store (str): Name of the store in which the employee works.
     """
 
+    # TODO add personnal and store related informations ?
     current_store: str = models.ForeignKey(Store, on_delete=models.CASCADE)
     firstname: str = models.CharField("First name", max_length=40)
     lastname: str = models.CharField("Last name", max_length=40, unique=True)
