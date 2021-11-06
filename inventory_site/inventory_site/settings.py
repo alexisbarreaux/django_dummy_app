@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "inventory_app.apps.InventoryAppConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -76,9 +77,9 @@ WSGI_APPLICATION = "inventory_site.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "mydatabase",
-        "USER": "mydatabaseuser",
-        "PASSWORD": "mypassword",
+        "NAME": "inventory",
+        "USER": "inventory_user",
+        "PASSWORD": "ktGdSLsf0KOMBfWukS9T",
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
