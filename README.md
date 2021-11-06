@@ -101,4 +101,5 @@ where you can enter the name of the employee you just created.
 Then submitting the form you will be redirected to the display of the names
 and expiry dates of the products of the store.
 
+
 You'll then be able to add or update expiry dates from this page.
