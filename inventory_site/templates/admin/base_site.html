@@ -1,0 +1,6 @@
+{% extends "admin/base.html" %} {% block title %}{% if subtitle %}{{ subtitle }}
+| {% endif %} {{ title }} | Inventory admin {%endblock %} {% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">Inventory admin site</a>
+</h1>
+{% endblock %} {% block nav-global %}{% endblock %}
