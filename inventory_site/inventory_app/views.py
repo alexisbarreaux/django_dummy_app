@@ -1,10 +1,9 @@
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.views import generic
 
 from .models import Employee, Product, Store
-from .forms import EmployeeLoginForm
+from .forms import EmployeeLoginForm, ExpiryDateAddingForm
 
 
 def get_index(request: HttpRequest):
@@ -34,7 +33,7 @@ def get_employee(request: HttpRequest):
                     lastname=form.cleaned_data["lastname"],
                 )
                 return HttpResponseRedirect(
-                    reverse("inventory:store_display/{", args=(employee.current_store,))
+                    reverse("inventory:store_display", args=(employee.current_store,))
                 )
             except Employee.DoesNotExist:
                 # If the employee doesn't exist display an error message to the user
@@ -77,3 +76,46 @@ def get_store_display(request: HttpRequest, store_name: str):
         }
 
     return render(request, "inventory_app/store_display.html", context)
+
+
+def add_product_to_store(request: HttpRequest, store_name: str):
+    """Function to add a product to a store."""
+    # TODO to be used later on when adding a product yet unknown to the store.
+    return
+
+
+def add_expiry_date_for_product(request: HttpRequest, store_name: str):
+    """Function to add a an expiry date for a product."""
+
+    # TODO remove this and directly match id
+    current_store = Store.objects.filter(name=store_name).first()
+    # if this is a POST request we need to process the form data
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        form = ExpiryDateAddingForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            try:
+                product = Product.objects.get(
+                    GTIN=form.cleaned_data["GTIN"],
+                )
+                product.update_expiry_date(form.cleaned_data["expiry_date"])
+                print(product, product.shortest_expiry_date)
+            except Product.DoesNotExist:
+                # If the product does not exist, create it
+                Product.objects.create(
+                    current_store=current_store.id,
+                    GTIN=form.cleaned_data["GTIN"],
+                    shortest_expiry_date=form.cleaned_data["expiry_date"],
+                )
+            finally:
+                # TODO add message for successful adding
+                return HttpResponseRedirect(
+                    reverse("inventory:store_display", args=(store_name,))
+                )
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = ExpiryDateAddingForm()
+
+    return render(request, "inventory_app/expiry_date_adding.html", {"form": form})

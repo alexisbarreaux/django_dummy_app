@@ -8,4 +8,9 @@ urlpatterns = [
     path(
         "store_display/<str:store_name>", views.get_store_display, name="store_display"
     ),
+    path(
+        "store_display/<str:store_name>/add_date",
+        views.add_expiry_date_for_product,
+        name="add_date",
+    ),
 ]
