@@ -86,7 +86,6 @@ def add_product_to_store(request: HttpRequest, store_name: str):
 
 def add_expiry_date_for_product(request: HttpRequest, store_name: str):
     """Function to add a an expiry date for a product."""
-
     # TODO remove this and directly match id
     current_store = Store.objects.filter(name=store_name).first()
     # if this is a POST request we need to process the form data
@@ -100,7 +99,6 @@ def add_expiry_date_for_product(request: HttpRequest, store_name: str):
                     GTIN=form.cleaned_data["GTIN"],
                 )
                 product.update_expiry_date(form.cleaned_data["expiry_date"])
-                print(product, product.shortest_expiry_date)
             except Product.DoesNotExist:
                 # If the product does not exist, create it
                 Product.objects.create(

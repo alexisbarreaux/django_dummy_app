@@ -49,12 +49,15 @@ class Product(models.Model):
         last_modified  (datetime): Datetime to know when this object was last modified.
     """
 
+    def current_date():
+        return date.today()
+
     current_store: int = models.ForeignKey(Store, on_delete=models.CASCADE)
     # TODO removes this default name and ask employee to give it if needed.
     name: Optional[str] = models.CharField("Name", max_length=100, default="")
     GTIN: str = models.CharField(max_length=14, unique=True)
     shortest_expiry_date: Optional[date] = models.DateField(
-        "Products expire at", default=date.today
+        "Products expire at", default=current_date
     )
     last_modified: datetime = models.DateTimeField(auto_now_add=True)
     # TODO store and delete date in a queue
