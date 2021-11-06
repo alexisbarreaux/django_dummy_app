@@ -2,10 +2,15 @@
 <section class="storeProductsDisplay">
     {% if store_name %}
     <h1>{{store_name}}'s products.</h1>
+    <label for="expiry_button">Add expiry date for product</label>
+    <a name="expiry_button" href="./{{store_name}}/add_date">
+        <button>Add</button>
+    </a>
     {% if products_list %}
     <ul>
+        <li>Name - Expiry Date</li>
         {% for product in products_list %}
-        <li>{{ product.name }}</li>
+        <li>{{ product.name }} - {{product.shortest_expiry_date}}</li>
         {% endfor %}
     </ul>
     {% else %}
