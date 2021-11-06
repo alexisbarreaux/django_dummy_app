@@ -35,6 +35,14 @@ Or and according to a [stack overflow issue](https://stackoverflow.com/a/1073983
 You will have to change your python interpreter to the one created with the venv,
 meaning you'll have to point to something like **C:\Users\my_wonderful_user\Documents\GitHub\django_dummy_app\Scripts\python.exe**.
 
+### Installing needed packages
+
+Before going further, in the root directory and with your venv activated run
+
+```shell
+pip install -r requirements.txt
+```
+
 ## Running the app
 
 ### Running the server
