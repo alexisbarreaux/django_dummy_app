@@ -78,26 +78,17 @@ def add_expiry_date_for_product(request: HttpRequest, store_name: str):
         # check whether it's valid:
         if form.is_valid():
             try:
-                print(form.cleaned_data["GTIN"])
-                print(current_store)
                 product = Product.objects.get(
                     GTIN=form.cleaned_data["GTIN"], current_store=current_store
                 )
-                print("here")
-                print(product)
                 product.update_expiry_date(form.cleaned_data["expiry_date"])
             except Product.DoesNotExist:
-                print("there")
-                try:
-                    product = Product.objects.create(
-                        current_store=current_store,
-                        GTIN=form.cleaned_data["GTIN"],
-                        shortest_expiry_date=form.cleaned_data["expiry_date"],
-                        name=form.cleaned_data["product_name"],
-                    )
-                except Exception as e:
-                    print("error")
-                    print(e)
+                product = Product.objects.create(
+                    current_store=current_store,
+                    GTIN=form.cleaned_data["GTIN"],
+                    shortest_expiry_date=form.cleaned_data["expiry_date"],
+                    name=form.cleaned_data["product_name"],
+                )
             finally:
                 # TODO add message for successful adding
                 return HttpResponseRedirect(
