@@ -4,7 +4,7 @@ from datetime import date
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from .validators import validate_GTIN
+from .validators import validate_GTIN, validate_date_not_passed
 from .models import Product, Employee
 
 
@@ -30,7 +30,7 @@ class EmployeeLoginForm(forms.Form):
         ),
     )
 
-    # Overiding clean method to check if employee exists.
+    # Overwriting clean method to check if employee exists.
     def clean(self):
         cleaned_data = super().clean()
         firstname = cleaned_data.get("firstname")
@@ -58,7 +58,9 @@ class ExpiryDateAddingForm(forms.Form):
         validators=[validate_GTIN],
     )
     expiry_date: date = forms.DateField(
-        initial=date.today(), label="Product expiry date"
+        initial=date.today(),
+        label="Product expiry date",
+        validators=[validate_date_not_passed],
     )
     product_name: str = forms.CharField(
         label="Product name (optional)",
@@ -69,21 +71,25 @@ class ExpiryDateAddingForm(forms.Form):
         ),
     )
 
-    # Overiding clean method to check that if a GTIN is new we should
+    # Overwriting clean method to check that if a GTIN is new we should
     # have a non empty and valid name field.
     def clean(self):
         cleaned_data = super().clean()
-        GTIN = cleaned_data.get("GTIN")
-        product_name = cleaned_data.get("product_name")
+        # If GTIN was validated check if it matches a known product.
+        if "GTIN" in cleaned_data:
+            GTIN = cleaned_data.get("GTIN")
+            product_name = cleaned_data.get("product_name")
 
-        if Product.objects.filter(GTIN=GTIN).exists():
-            return
+            if Product.objects.filter(GTIN=GTIN).exists():
+                return
+            else:
+                if len(product_name) < 3:
+                    raise ValidationError(
+                        _(
+                            '"%(value)s" is not a valid name. When adding a new product please give him a name with at least 3 characters.'
+                        ),
+                        params={"value": product_name},
+                        code="Wrong name for new product",
+                    )
         else:
-            if len(product_name) < 3:
-                raise ValidationError(
-                    _(
-                        '"%(value)s" is not a valid name. When adding a new product please give him a name with at least 3 characters.'
-                    ),
-                    params={"value": product_name},
-                    code="Wrong name for new product",
-                )
+            return
