@@ -17,7 +17,6 @@ class EmployeeLoginForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Please enter your firstname",
-                "class": "input-field",
             }
         ),
     )
@@ -27,7 +26,6 @@ class EmployeeLoginForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "placeholder": "Please enter your  lastname",
-                "class": "input-field",
             }
         ),
     )

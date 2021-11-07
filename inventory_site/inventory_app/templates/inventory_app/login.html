@@ -2,6 +2,7 @@
 <h2>{{error_message}}</h2>
 {% endif %}
 <section id="login">
+    <h1 class="centered-heading-white">Welcome to the inventory app</h1>
     <form
         id="login-form"
         action="login"
@@ -9,7 +10,11 @@
         class="employee-login-form"
     >
         {% csrf_token %} {{ form }}
-        <input type="submit" value="Send" />
+        <input
+            class="form-button form-button-submit"
+            type="submit"
+            value="Send"
+        />
     </form>
 </section>
 {% endblock %}
