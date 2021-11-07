@@ -3,6 +3,9 @@ from typing import Optional
 
 from django.contrib import admin
 from django.db import models
+from django.core.validators import MinLengthValidator
+
+from .validators import validate_GTIN, validate_date_not_passed
 
 
 class Store(models.Model):
@@ -53,11 +56,19 @@ class Product(models.Model):
         return date.today()
 
     current_store: int = models.ForeignKey(Store, on_delete=models.CASCADE)
-    # TODO removes this default name and ask employee to give it if needed.
-    name: Optional[str] = models.CharField("Name", max_length=100, default="")
-    GTIN: str = models.CharField(max_length=14, unique=True)
+    # A product should have at least three characters
+    name: str = models.CharField(
+        "Name", max_length=100, validators=[MinLengthValidator(limit_value=3)]
+    )
+    GTIN: str = models.CharField(
+        max_length=14,
+        unique=True,
+        validators=[validate_GTIN],
+    )
     shortest_expiry_date: Optional[date] = models.DateField(
-        "Products expire at", default=current_date
+        "Products expire at",
+        default=current_date,
+        validators=[validate_date_not_passed],
     )
     last_modified: datetime = models.DateTimeField(auto_now_add=True)
     # TODO store and delete date in a queue
