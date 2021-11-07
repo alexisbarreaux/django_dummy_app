@@ -8,18 +8,31 @@
             <button class="classic-button">Add</button>
         </a>
     </div>
+    <div class="products-display">
+        {% if products_list %}
 
-    {% if products_list %}
-    <ul>
-        <li>Name - Expiry Date</li>
-        {% for product in products_list %}
-        <li>{{ product.name }} - {{product.shortest_expiry_date}}</li>
-        {% endfor %}
-    </ul>
+        <table>
+            <tr>
+                <th>GTIN</th>
+                <th>Product name</th>
+                <th>Expiry date</th>
+            </tr>
+            {% for product in products_list %}
+            <tr>
+                <td>{{ product.GTIN }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{product.shortest_expiry_date}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No products currently in store.</p>
+        {% endif %}
+    </div>
     {% else %}
-    <p>No products currently in store.</p>
-    {% endif %} {% else %}
-    <h1>The store you are looking for doesn't exist.</h1>
+    <h1 class="centered-heading">
+        The store you are looking for doesn't exist.
+    </h1>
     {% endif %}
 </section>
 {% endblock %}
