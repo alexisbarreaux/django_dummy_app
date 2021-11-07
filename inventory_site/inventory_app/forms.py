@@ -1,11 +1,13 @@
 from django import forms
 from datetime import date
+from typing import Optional, Mapping, Any, Union, Type
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from django.forms.utils import ErrorList
 
 from .validators import validate_GTIN, validate_date_not_passed
-from .models import Product, Employee
+from .models import Product, Employee, Store
 
 
 class EmployeeLoginForm(forms.Form):
@@ -51,6 +53,11 @@ class EmployeeLoginForm(forms.Form):
 class ExpiryDateAddingForm(forms.Form):
     """Form for employees when a product was added in stock."""
 
+    def __init__(self, store: str, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.store = store
+        return
+
     GTIN: str = forms.CharField(
         label="GTIN",
         max_length=14,
@@ -80,7 +87,8 @@ class ExpiryDateAddingForm(forms.Form):
             GTIN = cleaned_data.get("GTIN")
             product_name = cleaned_data.get("product_name")
 
-            if Product.objects.filter(GTIN=GTIN).exists():
+            # Check if product exists in store
+            if Product.objects.filter(GTIN=GTIN, current_store=self.store).exists():
                 return
             else:
                 if len(product_name) < 3:

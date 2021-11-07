@@ -74,21 +74,30 @@ def add_expiry_date_for_product(request: HttpRequest, store_name: str):
     # if this is a POST request we need to process the form data
     if request.method == "POST":
         # create a form instance and populate it with data from the request:
-        form = ExpiryDateAddingForm(request.POST)
+        form = ExpiryDateAddingForm(data=request.POST, store=current_store)
         # check whether it's valid:
         if form.is_valid():
             try:
+                print(form.cleaned_data["GTIN"])
+                print(current_store)
                 product = Product.objects.get(
-                    GTIN=form.cleaned_data["GTIN"],
+                    GTIN=form.cleaned_data["GTIN"], current_store=current_store
                 )
+                print("here")
+                print(product)
                 product.update_expiry_date(form.cleaned_data["expiry_date"])
             except Product.DoesNotExist:
-                product = Product.objects.create(
-                    current_store=current_store,
-                    GTIN=form.cleaned_data["GTIN"],
-                    shortest_expiry_date=form.cleaned_data["expiry_date"],
-                    name=form.cleaned_data["product_name"],
-                )
+                print("there")
+                try:
+                    product = Product.objects.create(
+                        current_store=current_store,
+                        GTIN=form.cleaned_data["GTIN"],
+                        shortest_expiry_date=form.cleaned_data["expiry_date"],
+                        name=form.cleaned_data["product_name"],
+                    )
+                except Exception as e:
+                    print("error")
+                    print(e)
             finally:
                 # TODO add message for successful adding
                 return HttpResponseRedirect(
@@ -97,6 +106,6 @@ def add_expiry_date_for_product(request: HttpRequest, store_name: str):
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = ExpiryDateAddingForm()
+        form = ExpiryDateAddingForm(store=current_store)
 
     return render(request, "inventory_app/expiry_date_adding.html", {"form": form})
