@@ -1,8 +1,13 @@
 {% extends "inventory_app/home.html" %} {% block content %}
 <section id="add_date" class="date-adding">
-    <form action="add_date" method="post">
+    <h1 class="centered-heading">Expiry date adding form.</h1>
+    <form class="product-adding-form" action="add_date" method="post">
         {% csrf_token %} {{ form }}
-        <input type="submit" value="Send" />
+        <input
+            class="form-button form-button-submit"
+            type="submit"
+            value="Send"
+        />
     </form>
 </section>
 {% endblock %}
