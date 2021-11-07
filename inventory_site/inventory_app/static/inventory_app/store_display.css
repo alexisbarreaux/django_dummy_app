@@ -12,13 +12,13 @@
     align-items: center;
 }
 
-/* Overigding label color */
+/* Overwriting label color */
 #store-products-display label {
     color: black;
     text-transform: none;
 }
 
-/* Overiding heading */
+/* Overwriting heading */
 #store-products-display .centered-heading {
     text-transform: uppercase;
 }

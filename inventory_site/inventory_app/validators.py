@@ -18,7 +18,7 @@ def validate_GTIN(value):
 
 
 def validate_date_not_passed(value):
-    if value < date.today:
+    if value < date.today():
         raise ValidationError(
             _("%(value)s you can't create a product with a passed expiry date."),
             params={"value": value},

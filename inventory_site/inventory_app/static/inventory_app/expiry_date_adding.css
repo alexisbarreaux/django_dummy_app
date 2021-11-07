@@ -25,6 +25,7 @@
 #add_date .product-adding-form .errorlist li {
     color: black;
     font-size: larger;
+    text-align: center;
 }
 
 /* Input fields */
