@@ -41,7 +41,7 @@ class EmployeeLoginForm(forms.Form):
         else:
             raise ValidationError(
                 _(
-                    '"%(firstname)s %(lastname)s" wasn\'t found as employee. Are you sure you wrote your name correctly ? If yes please inform your administrator.'
+                    '"%(firstname)s %(lastname)s" didn\'t match any known employee. Are you sure you wrote your name correctly ? If yes please inform your administrator.'
                 ),
                 params={"firstname": firstname, "lastname": lastname},
                 code="no-employee-found",
