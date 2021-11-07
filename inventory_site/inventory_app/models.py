@@ -9,7 +9,7 @@ from .validators import validate_GTIN, validate_date_not_passed
 
 
 class Store(models.Model):
-    """Class storing data about a store.
+    """Class representing a store..
 
     Attributes:
         name (str): Name of the store.
@@ -28,11 +28,11 @@ class Employee(models.Model):
     Attributes:
         firstname (str): First name of the employee.
         lastname (str): Last name of the employee.
-        current_store (int): Id of the store in which the employee works.
+        current_store (Store): Store in which the employee works.
     """
 
     # TODO add personnal and store related informations ?
-    current_store: int = models.ForeignKey(Store, on_delete=models.CASCADE)
+    current_store: Store = models.ForeignKey(Store, on_delete=models.CASCADE)
     firstname: str = models.CharField("First name", max_length=40)
     lastname: str = models.CharField("Last name", max_length=40, unique=True)
 
@@ -44,7 +44,7 @@ class Product(models.Model):
     """Model storing data about one product type.
 
     Attributes:
-        current_store (int) : shop in which the product is displayed.
+        current_store (Store) : Store in which the product is displayed.
         name (str): name of the product in the shop it is in.
         GTIN (str): unique identifier of the product.
         shortest_expiry_date (Optional[date]): Date when the first displayed product
@@ -55,8 +55,8 @@ class Product(models.Model):
     def current_date():
         return date.today()
 
-    current_store: int = models.ForeignKey(Store, on_delete=models.CASCADE)
-    # A product should have at least three characters
+    current_store: Store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    # A product name should have at least three characters
     name: str = models.CharField(
         "Name", max_length=100, validators=[MinLengthValidator(limit_value=3)]
     )
@@ -71,7 +71,7 @@ class Product(models.Model):
     )
     last_modified: datetime = models.DateTimeField(auto_now_add=True)
     # TODO store and delete date in a queue
-    #    expiry_dates: List[date]
+    #    expiry_dates: set[date]
     # )
 
     def __str__(self):
