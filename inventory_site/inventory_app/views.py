@@ -78,12 +78,6 @@ def get_store_display(request: HttpRequest, store_name: str):
     return render(request, "inventory_app/store_display.html", context)
 
 
-def add_product_to_store(request: HttpRequest, store_name: str):
-    """Function to add a product to a store."""
-    # TODO to be used later on when adding a product yet unknown to the store.
-    return
-
-
 def add_expiry_date_for_product(request: HttpRequest, store_name: str):
     """Function to add a an expiry date for a product."""
     # TODO remove this and directly match id
@@ -100,11 +94,11 @@ def add_expiry_date_for_product(request: HttpRequest, store_name: str):
                 )
                 product.update_expiry_date(form.cleaned_data["expiry_date"])
             except Product.DoesNotExist:
-                # If the product does not exist, create it
-                Product.objects.create(
-                    current_store=current_store.id,
+                product = Product.objects.create(
+                    current_store=current_store,
                     GTIN=form.cleaned_data["GTIN"],
                     shortest_expiry_date=form.cleaned_data["expiry_date"],
+                    name=form.cleaned_data["product_name"],
                 )
             finally:
                 # TODO add message for successful adding
