@@ -93,7 +93,11 @@ class Product(models.Model):
         Args:
             expiry_date (date): Date object to check against current expiry date.
         """
-        if date.today() <= expiry_date < self.shortest_expiry_date:
+        # Update date if eithers it was valid but a valid and shorter one came
+        # up or if it was passed and new valid one is gave.
+        if (self.shortest_expiry_date < date.today() <= expiry_date) or (
+            date.today() <= expiry_date < self.shortest_expiry_date
+        ):
             self.shortest_expiry_date = expiry_date
             self.last_modified = datetime.now(timezone.utc)
             self.save()
