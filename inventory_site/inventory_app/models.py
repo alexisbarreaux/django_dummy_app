@@ -98,3 +98,10 @@ class Product(models.Model):
             self.last_modified = datetime.now(timezone.utc)
             self.save()
         return
+
+    class Meta:
+        # Can only have one object for each product/GTIN in a store.
+        unique_together = (
+            "GTIN",
+            "current_store",
+        )
