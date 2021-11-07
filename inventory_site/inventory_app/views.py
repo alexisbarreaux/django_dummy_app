@@ -47,14 +47,13 @@ def get_store_display(request: HttpRequest, store_name: str):
     """Function to display the data about a store for an employee."""
 
     def get_first_products(store: Store):
-        """Return the 20 products with the shortest expiry dates
-        of the store.
+        """Return the products of the store with their shortest expiry dates.
 
         Args:
             store (Store): store in which to search for the products."""
         return Product.objects.filter(current_store=current_store.id).order_by(
             "shortest_expiry_date"
-        )[:20]
+        )
 
     current_store = Store.objects.filter(name=store_name).first()
     if current_store is None:
