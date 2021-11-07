@@ -1,11 +1,14 @@
 {% extends "inventory_app/home.html" %} {% block content %}
-<section class="storeProductsDisplay">
+<section id="store-products-display">
     {% if store_name %}
-    <h1>{{store_name}}'s products.</h1>
-    <label for="expiry_button">Add expiry date for product</label>
-    <a name="expiry_button" href="./{{store_name}}/add_date">
-        <button>Add</button>
-    </a>
+    <h1 class="centered-heading">{{store_name}}'s products.</h1>
+    <div class="expiry-date-adding">
+        <label for="expiry_button">Add expiry date for product</label>
+        <a name="expiry_button" href="./{{store_name}}/add_date">
+            <button class="classic-button">Add</button>
+        </a>
+    </div>
+
     {% if products_list %}
     <ul>
         <li>Name - Expiry Date</li>
