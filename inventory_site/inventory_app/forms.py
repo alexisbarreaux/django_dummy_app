@@ -11,8 +11,26 @@ from .models import Product
 class EmployeeLoginForm(forms.Form):
     """Form for employees to log in."""
 
-    firstname: str = forms.CharField(label="Firstname", max_length=40)
-    lastname: str = forms.CharField(label="Lastname", max_length=40)
+    firstname: str = forms.CharField(
+        label="Firstname",
+        max_length=40,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Please enter your firstname",
+                "class": "input-field",
+            }
+        ),
+    )
+    lastname: str = forms.CharField(
+        label="Lastname",
+        max_length=40,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Please enter your  lastname",
+                "class": "input-field",
+            }
+        ),
+    )
 
 
 class ExpiryDateAddingForm(forms.Form):
