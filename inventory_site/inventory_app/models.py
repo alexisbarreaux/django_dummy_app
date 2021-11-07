@@ -62,7 +62,6 @@ class Product(models.Model):
     )
     GTIN: str = models.CharField(
         max_length=14,
-        unique=True,
         validators=[validate_GTIN],
     )
     shortest_expiry_date: Optional[date] = models.DateField(
