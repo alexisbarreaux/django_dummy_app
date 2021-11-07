@@ -1,17 +1,15 @@
 from django import forms
 from datetime import date
-from typing import Optional, Mapping, Any, Union, Type
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-from django.forms.utils import ErrorList
 
 from .validators import validate_GTIN, validate_date_not_passed
 from .models import Product, Employee, Store
 
 
 class EmployeeLoginForm(forms.Form):
-    """Form for employees to log in."""
+    """Form for employees to log in the app."""
 
     firstname: str = forms.CharField(
         label="Firstname",
@@ -53,7 +51,12 @@ class EmployeeLoginForm(forms.Form):
 class ExpiryDateAddingForm(forms.Form):
     """Form for employees when a product was added in stock."""
 
-    def __init__(self, store: str, *args, **kwargs) -> None:
+    store: Store
+
+    def __init__(self, store: Store, *args, **kwargs) -> None:
+        """Overwriting init method in order for the form to know for which
+        store he should check if product exist.
+        """
         super().__init__(*args, **kwargs)
         self.store = store
         return
@@ -87,9 +90,12 @@ class ExpiryDateAddingForm(forms.Form):
             GTIN = cleaned_data.get("GTIN")
             product_name = cleaned_data.get("product_name")
 
-            # Check if product exists in store
+            # Check if product exists in store; If it does let the view
+            # handle the rest.
             if Product.objects.filter(GTIN=GTIN, current_store=self.store).exists():
                 return
+            # Otherwise and if the product name is not provided and long enough
+            # raise an error.
             else:
                 if len(product_name) < 3:
                     raise ValidationError(

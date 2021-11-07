@@ -6,7 +6,8 @@ Django dummy app with a postgresql database.
 
 ### Creating venv
 
-This app was built using a virtual environment initial in the root directory of the project (something like **.../GitHub/django_dummy_app** on your own computer) with
+This app was built using a virtual environment created in the root directory of the project (something like **.../GitHub/django_dummy_app** on your own computer
+if you use github desktop) with
 
 ```shell
 python -m venv .
@@ -14,7 +15,7 @@ python -m venv .
 
 ### Running venv
 
-On windows you then activate the venv with, which might will differ for other settings.
+On windows you then activate the venv this way: (which will differ for other settings)
 
 ```shell
 .\Scripts\Activate.ps1
@@ -22,7 +23,7 @@ On windows you then activate the venv with, which might will differ for other se
 
 ### Path issues
 
-**Note** : I personnaly found out that building virtual environments this way didn't seem to add the current directory to path. So if your current path isn't in your python path, you might thus need to either use an export path before running this and within your activated venv (which isn't very convenient):
+**Note** : I personnaly found out that building virtual environments this way didn't seem to add the current path to directory. So if your current path isn't in your python path, you might thus need to either use an export path before running this and within your activated venv (which isn't very convenient):
 
 ```shell
 export PYTHONPATH="${PYTHONPATH}:/Users/username/Documents/..... path to repo"
@@ -47,7 +48,7 @@ pip install -r requirements.txt
 
 ### Running the server
 
-To run the server, from the root directory do
+To run the server, from the root directory and with venv running do
 
 ```shell
 python .\inventory_site\manage.py runserver
@@ -68,14 +69,17 @@ As I ran it locally I'll ask you to also make a local database.
 If you indeed did make a local database you will have to make the needed migrations with
 
 ```shell
+python .\inventory_site\manage.py makemigrations
 python .\inventory_site\manage.py migrate
 ```
+
+I left mine so actually using **makemigrations** might not even be needed.
 
 ## Testing the app
 
 ### App superuser
 
-My site superuser has the name **admin** (surprising) and password **MYgr8t9GxnQfdUOudCp2** created with
+You will have to create a superuser to see the admin site with.
 
 ```shell
 python .\inventory_site\manage.py createsuperuser
@@ -84,13 +88,12 @@ python .\inventory_site\manage.py createsuperuser
 ### Building objects
 
 Since I ran on a local database you will have to do the same and thus recreate
-objects. With the app running and after having made the database and migrations
-go to **http://127.0.0.1:8000/admin**.
-There :
+objects. With the app running and after having made the database, migrations and
+created a superuser go to **http://127.0.0.1:8000/admin**.
+There you will need to at least:
 
 -   create a store item
 -   create an employee for the store
--   create a product displayed in the store.
 
 ### Testing
 
@@ -100,6 +103,5 @@ where you can enter the name of the employee you just created.
 
 Then submitting the form you will be redirected to the display of the names
 and expiry dates of the products of the store.
-
 
 You'll then be able to add or update expiry dates from this page.
