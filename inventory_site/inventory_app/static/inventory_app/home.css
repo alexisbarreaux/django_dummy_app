@@ -9,21 +9,17 @@
 /* Simple headings */
 .centered-heading {
     color: black;
-    text-align: center;
-    font-size: 30px;
 }
 
 .centered-heading-white {
     color: white;
-    text-align: center;
-    font-size: 32px;
 }
 
 /* Simple paragraphs */
-.white-centered-paragraph {
+.centered-paragraph-white {
     color: white;
     font-weight: bold;
-    text-align: center;
+    font-size: auto;
 }
 
 /* Input fields */
