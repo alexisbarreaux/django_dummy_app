@@ -1,4 +1,4 @@
-{% extends "inventory_app/app.html" %} {% block content %}
+{% extends "inventory_app/home.html" %} {% block content %}
 <section id="add_date" class="date-adding">
     <form action="add_date" method="post">
         {% csrf_token %} {{ form }}

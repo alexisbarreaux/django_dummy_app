@@ -1,4 +1,5 @@
-.FullPage {
+#home {
     font-family: "Calibri", sans-serif;
-    background-color: #f3dcc6;
+    min-width: 400px;
+    min-height: 400px;
 }

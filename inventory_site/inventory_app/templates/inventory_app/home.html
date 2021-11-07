@@ -1,0 +1,13 @@
+{% load static %}
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'inventory_app/app.css' %}"
+/>
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'inventory_app/login_form.css' %}"
+/>
+
+<section id="home">{% block content %}{% endblock %}</section>
