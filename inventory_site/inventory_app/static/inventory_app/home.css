@@ -9,17 +9,17 @@
 /* Simple headings */
 .centered-heading {
     color: black;
+    font-size: x-large;
 }
 
 .centered-heading-white {
     color: white;
+    font-size: x-large;
 }
 
 /* Simple paragraphs */
 .centered-paragraph-white {
     color: white;
-    font-weight: bold;
-    font-size: auto;
 }
 
 /* Input fields */
@@ -82,4 +82,29 @@ label {
     font-size: 20px;
     font-weight: bolder;
     box-shadow: 0 24px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Classic buttons */
+.classic-button {
+    border: black;
+    background-color: white;
+    color: black;
+    font-family: inherit;
+    cursor: pointer;
+    margin: auto;
+    margin-left: 20px;
+    padding: 14px 20px 13px;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: bolder;
+    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.2);
+}
+
+.classic-button :not(:disabled):hover {
+    background-color: rgb(199, 199, 199);
+}
+
+.classic-button:not(:disabled):active {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 6px 4px;
 }
