@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from .validators import validate_GTIN
-from .models import Product
+from .models import Product, Employee
 
 
 class EmployeeLoginForm(forms.Form):
@@ -29,6 +29,23 @@ class EmployeeLoginForm(forms.Form):
             }
         ),
     )
+
+    # Overiding clean method to check if employee exists.
+    def clean(self):
+        cleaned_data = super().clean()
+        firstname = cleaned_data.get("firstname")
+        lastname = cleaned_data.get("lastname")
+
+        if Employee.objects.filter(firstname=firstname, lastname=lastname).exists():
+            return
+        else:
+            raise ValidationError(
+                _(
+                    '"%(firstname)s %(lastname)s" wasn\'t found as employee. Are you sure you wrote your name correctly ? If yes please inform your administrator.'
+                ),
+                params={"firstname": firstname, "lastname": lastname},
+                code="no-employee-found",
+            )
 
 
 class ExpiryDateAddingForm(forms.Form):

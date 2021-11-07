@@ -26,25 +26,15 @@ def get_employee(request: HttpRequest):
         form = EmployeeLoginForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            try:
-                # TODO assert this returns at most one object
-                employee = Employee.objects.get(
-                    firstname=form.cleaned_data["firstname"],
-                    lastname=form.cleaned_data["lastname"],
-                )
-                return HttpResponseRedirect(
-                    reverse("inventory:store_display", args=(employee.current_store,))
-                )
-            except Employee.DoesNotExist:
-                # If the employee doesn't exist display an error message to the user
-                return render(
-                    request,
-                    "inventory_app/login.html",
-                    {
-                        "form": form,
-                        "error_message": "Employee does not exist. Please enter a valid first and last name.",
-                    },
-                )
+            # No need to try catch here as this is already checked in form validation.
+            # TODO assert this returns at most one object
+            employee = Employee.objects.get(
+                firstname=form.cleaned_data["firstname"],
+                lastname=form.cleaned_data["lastname"],
+            )
+            return HttpResponseRedirect(
+                reverse("inventory:store_display", args=(employee.current_store,))
+            )
 
     # if a GET (or any other method) we'll create a blank form
     else:

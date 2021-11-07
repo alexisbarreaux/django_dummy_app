@@ -25,3 +25,9 @@
     align-items: center;
     flex-direction: column;
 }
+
+#login-form .errorlist li {
+    color: white;
+    font: bolder;
+    font-size: larger;
+}
