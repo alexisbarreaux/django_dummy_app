@@ -12,7 +12,7 @@
     background-attachment: fixed;
     border: none;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -28,6 +28,7 @@
 #login .login-form .errorlist li {
     color: white;
     font-size: larger;
+    text-align: center;
 }
 
 /* Input fields */
